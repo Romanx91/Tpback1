@@ -5,7 +5,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Tpback1.Data.Repository.Interfaces;
-using Tpback1.Models;
+using Tpback1.Models.Dtos;
 
 namespace Tpback1.Controllers
 {

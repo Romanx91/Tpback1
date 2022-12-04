@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Tpback1.Data.Repository.Interfaces;
-using Tpback1.Models;
+using Tpback1.Models.Dtos;
 
 namespace Tpback1.Controllers
 {
@@ -60,16 +60,14 @@ namespace Tpback1.Controllers
         }
 
         [HttpPut]
-        public IActionResult UpdateUser(CreateAndUpdateUserDto dto)
+        public IActionResult UpdateUser(UpdateUser dto)
         {
-            try
-            {
-                _userRepository.Update(dto);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex);
-            }
+
+            _userRepository.Update(dto);
+
+
+
+         
             return NoContent();
         }
 

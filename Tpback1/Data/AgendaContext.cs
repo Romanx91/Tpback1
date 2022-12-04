@@ -6,7 +6,7 @@ namespace Tpback1.Data
     public class AgendaContext : DbContext
     {
         public DbSet<User> Users { get; set; }
-        public DbSet<Contact> Contacts { get; set; }
+        public DbSet<Contacts> Contacts { get; set; }
 
         public AgendaContext(DbContextOptions<AgendaContext> options) : base(options) //Acá estamos llamando al constructor de DbContext que es el que acepta las opciones
         {
@@ -45,7 +45,7 @@ namespace Tpback1.Data
 
             };
 
-            Contact Rex = new Contact()
+            Contacts Rex = new Contacts()
             {
                 Id= 4,
                 Name = "reex",
@@ -57,7 +57,7 @@ namespace Tpback1.Data
              
             };
 
-            Contact jaimitoC = new Contact()
+            Contacts jaimitoC = new Contacts()
             {
                 Id = 1,
                 Name = "Jaimito",
@@ -67,7 +67,7 @@ namespace Tpback1.Data
                 UserId = karen.Id,
             };
 
-            Contact pepeC = new Contact()
+            Contacts pepeC = new Contacts()
             {
                 Id = 2,
                 Name = "Pepe",
@@ -77,7 +77,7 @@ namespace Tpback1.Data
                 UserId = luis.Id,
             };
 
-            Contact mariaC = new Contact()
+            Contacts mariaC = new Contacts()
             {
                 Id = 3,
                 Name = "Maria",
@@ -92,12 +92,12 @@ namespace Tpback1.Data
             modelBuilder.Entity<User>().HasData(
                 karen, luis, roman);
 
-            modelBuilder.Entity<Contact>().HasData(
+            modelBuilder.Entity<Contacts>().HasData(
                  jaimitoC, pepeC, mariaC, Rex
                  );
 
             modelBuilder.Entity<User>()
-              .HasMany<Contact>(u => u.Contacts)
+              .HasMany<Contacts>(u => u.Contacts)
               .WithOne(c => c.User);
 
             base.OnModelCreating(modelBuilder);

@@ -1,5 +1,5 @@
 ﻿using Tpback1.Entities;
-using Tpback1.Models;
+using Tpback1.Models.Dtos;
 
 namespace Tpback1.Data.Repository.Interfaces
 {
@@ -9,7 +9,7 @@ namespace Tpback1.Data.Repository.Interfaces
         public User? GetById(int userId);
         public List<User> GetAll();
         public void Create(CreateAndUpdateUserDto dto);
-        public void Update(CreateAndUpdateUserDto dto);
+        public void Update(UpdateUser dto);
         public void Delete(int id);
     }
 }

@@ -1,9 +1,8 @@
 ﻿using Tpback1.Data.Repository.Interfaces;
 using Tpback1.Entities;
-using Tpback1.Models;
 using AutoMapper;
-
-
+using Tpback1.Models.Dtos;
+using Tpback1.Models;
 
 namespace Tpback1.Data.Repository.Implementations
 {
@@ -17,23 +16,36 @@ namespace Tpback1.Data.Repository.Implementations
             _context = context;
             _mapper = autoMapper;
         }
-        public List<Contact> GetAll()
+        public List<Contacts> GetAllByUser(int id)
         {
-            return _context.Contacts.ToList();
+
+            return _context.Contacts.Where(c => c.User.Id == id).ToList();
         }
 
-        public void Create(CreateAndUpdateContact dto)
+        public void Create(CreateAndUpdateContact dto, int id)
         {
-            _context.Contacts.Add(_mapper.Map<Contact>(dto));
+            Contacts contact = _mapper.Map<Contacts>(dto);
+            contact.UserId = id;
+            _context.Contacts.Add(contact);
+            _context.SaveChanges();
         }
 
-        public void Update(CreateAndUpdateContact dto)
+        public void Update(UpdateContact dto, int id)
         {
-            _context.Contacts.Update(_mapper.Map<Contact>(dto));
+            Contacts contact = _mapper.Map<Contacts>(dto);
+            contact.UserId = id;
+            _context.Contacts.Update(contact);
+            _context.SaveChanges();
         }
         public void Delete(int id)
         {
             _context.Contacts.Remove(_context.Contacts.Single(c => c.Id == id));
+            _context.SaveChanges();
+        }
+
+        public Task FindAsync(int id)
+        {
+            throw new NotImplementedException();
         }
     }
 }

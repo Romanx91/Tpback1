@@ -15,6 +15,6 @@ namespace Tpback1.Entities
         public string Email { get; set; }
         [Required]
         public string UserName { get; set; }
-        public ICollection<Contact> Contacts { get; set; }
+        public ICollection<Contacts> Contacts { get; set; }
     }
 }

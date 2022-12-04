@@ -2,7 +2,12 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Tpback1.Data.Repository.Interfaces;
-using Tpback1.Models;
+
+using Tpback1.Models.Dtos;
+using System.Text.Json;
+using Tpback1.Entities;
+using Tpback1.Data.Repository.Implementations;
+using Microsoft.EntityFrameworkCore.Update.Internal;
 
 namespace Tpback1.Controllers
 {
@@ -12,53 +17,48 @@ namespace Tpback1.Controllers
     public class ContactController : ControllerBase
     {
         private readonly IContactRepository _contactRepository;
+        private readonly IUserRepository _userRepository;
 
-        public ContactController(IContactRepository contactRepository)
+        public ContactController(IContactRepository contactRepository, IUserRepository userRepository)
         {
             _contactRepository = contactRepository;
+            _userRepository = userRepository;
         }
 
         [HttpGet]
         public IActionResult GetAll()
         {
 
-            return Ok(_contactRepository.GetAll());
+            int userId = Int32.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type.Contains("nameidentifier")).Value);
+            return Ok(_contactRepository.GetAllByUser(userId));
         }
 
         [HttpGet]
         [Route("{Id}")]
         public IActionResult GetOne(int Id)
         {
-            return Ok(_contactRepository.GetAll().Where(x => x.Id == Id));
+            int userId = Int32.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type.Contains("nameidentifier")).Value);
+            return Ok(_contactRepository.GetAllByUser(userId).Where(x => x.Id == Id));
         }
 
 
         [HttpPost]
         public IActionResult CreateContact(CreateAndUpdateContact createContactDto)
         {
-            try
-            {
-                _contactRepository.Create(createContactDto);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            int userId = Int32.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type.Contains("nameidentifier")).Value);
+            _contactRepository.Create(createContactDto, userId);
             return Created("Created", createContactDto);
         }
 
         [HttpPut]
-        public IActionResult UpdateContact(CreateAndUpdateContact dto)
+        public IActionResult UpdateContact(UpdateContact updatetDto)
         {
-            try
-            {
-                _contactRepository.Update(dto);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex);
-            }
-            return NoContent();
+            int userId = Int32.Parse(HttpContext.User.Claims.FirstOrDefault(x => x.Type.Contains("nameidentifier")).Value);
+            _contactRepository.Update(updatetDto, userId);
+
+
+            
+            return Ok(updatetDto);
         }
 
         [HttpDelete]

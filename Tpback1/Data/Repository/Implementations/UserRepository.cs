@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Tpback1.Data.Repository.Interfaces;
-using Tpback1.Models;
 using Tpback1.Entities;
+using Tpback1.Models.Dtos;
 
 namespace Tpback1.Data.Repository.Implementations
 {
@@ -32,16 +32,20 @@ namespace Tpback1.Data.Repository.Implementations
         public void Create(CreateAndUpdateUserDto dto)
         {
             _context.Users.Add(_mapper.Map<User>(dto));
+            _context.SaveChanges();
         }
 
-        public void Update(CreateAndUpdateUserDto dto)
+        public void Update(UpdateUser dto)
         {
+            
             _context.Users.Update(_mapper.Map<User>(dto));
+            _context.SaveChanges();
         }
 
         public void Delete(int id)
         {
             _context.Users.Remove(_context.Users.Single(u => u.Id == id));
+            _context.SaveChanges();
         }
     }
 }

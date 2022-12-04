@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Tpback1.Models
+namespace Tpback1.Models.Dtos
 {
     public class AuthenticationRequestBody
     {

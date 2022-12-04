@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Tpback1.Entities
 {
-    public class Contact
+    public class Contacts
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

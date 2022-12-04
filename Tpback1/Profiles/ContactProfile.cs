@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Tpback1.Entities;
-using Tpback1.Models;
+using Tpback1.Models.Dtos;
 
 namespace Tpback1.Profiles
 {
@@ -8,7 +8,9 @@ namespace Tpback1.Profiles
     {
         public ContactProfile()
         {
-            CreateMap<Contact, CreateAndUpdateContact>();
+            CreateMap<UpdateContact,  Contacts>();
+            CreateMap<CreateAndUpdateContact, Contacts>();
+           
         }
     }
 }
