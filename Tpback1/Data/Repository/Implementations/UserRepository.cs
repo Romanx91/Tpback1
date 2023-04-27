@@ -29,10 +29,21 @@ namespace Tpback1.Data.Repository.Implementations
             return _context.Users.ToList();
         }
 
-        public void Create(CreateAndUpdateUserDto dto)
+        public void CreateUser(CreateAndUpdateUserDto dto)
         {
-            _context.Users.Add(_mapper.Map<User>(dto));
+            User user = new User ();
+            user.Name = dto.Name;
+            user.LastName = dto.LastName;
+            user.Password = dto.Password;
+            user.Email = dto.Email;
+            user.UserName = dto.UserName;
+            _context.Add(user);
             _context.SaveChanges();
+        }
+
+        public bool UserExists(int userId)
+        {
+            return _context.Users.Any(u => u.Id == userId);
         }
 
         public void Update(UpdateUser dto)

@@ -16,5 +16,6 @@ namespace Tpback1.Entities
         [Required]
         public string UserName { get; set; }
         public ICollection<Contacts> Contacts { get; set; }
+        public ICollection<BlockedContact> ContactBlacks { get; set; }
     }
 }

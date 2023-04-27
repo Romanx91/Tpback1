@@ -8,9 +8,9 @@ namespace Tpback1.Profiles
     {
         public UserProfile()
         {
-            CreateMap<UpdateUser, User>();
-            CreateMap<CreateAndUpdateUserDto, User>();
-            CreateMap<GetUserByIdResponse, User>();
+            CreateMap<User, UpdateUser>();
+            CreateMap<User, CreateAndUpdateUserDto>();
+            CreateMap<User, GetUserByIdResponse>();
         }
 
     }

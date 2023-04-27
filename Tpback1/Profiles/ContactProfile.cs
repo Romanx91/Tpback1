@@ -8,9 +8,10 @@ namespace Tpback1.Profiles
     {
         public ContactProfile()
         {
-            CreateMap<UpdateContact,  Contacts>();
+            
+            CreateMap<Contacts, CreateAndUpdateContact>();
             CreateMap<CreateAndUpdateContact, Contacts>();
-           
+
         }
     }
 }

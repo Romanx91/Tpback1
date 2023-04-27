@@ -5,8 +5,14 @@ namespace Tpback1.Data
 {
     public class AgendaContext : DbContext
     {
+        internal object user;
+
         public DbSet<User> Users { get; set; }
         public DbSet<Contacts> Contacts { get; set; }
+        
+        
+
+
 
         public AgendaContext(DbContextOptions<AgendaContext> options) : base(options) //Acá estamos llamando al constructor de DbContext que es el que acepta las opciones
         {
@@ -15,6 +21,10 @@ namespace Tpback1.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+      
+
+
+
             User karen = new User()
             {
                 Id = 1,
@@ -36,7 +46,7 @@ namespace Tpback1.Data
 
             User roman = new User()
             {
-                Id= 3,
+                Id = 3,
                 Name = "Roman",
                 LastName = "ml",
                 Password = "123456",
@@ -47,14 +57,14 @@ namespace Tpback1.Data
 
             Contacts Rex = new Contacts()
             {
-                Id= 4,
+                Id = 4,
                 Name = "reex",
-                CelularNumber= 341567891,
+                CelularNumber = 341567891,
                 Description = "desconocido",
                 TelephoneNumber = null,
                 UserId = roman.Id,
 
-             
+
             };
 
             Contacts jaimitoC = new Contacts()
@@ -77,14 +87,15 @@ namespace Tpback1.Data
                 UserId = luis.Id,
             };
 
-            Contacts mariaC = new Contacts()
+
+            Contacts marshall = new Contacts()
             {
                 Id = 3,
                 Name = "Maria",
                 CelularNumber = 011425789,
                 Description = "Jefa",
                 TelephoneNumber = null,
-                UserId = karen.Id,
+                UserId = roman.Id,
             };
 
 
@@ -93,12 +104,11 @@ namespace Tpback1.Data
                 karen, luis, roman);
 
             modelBuilder.Entity<Contacts>().HasData(
-                 jaimitoC, pepeC, mariaC, Rex
+                 jaimitoC, pepeC, Rex
                  );
 
-            modelBuilder.Entity<User>()
-              .HasMany<Contacts>(u => u.Contacts)
-              .WithOne(c => c.User);
+            modelBuilder.Entity<User>().HasMany(u => u.Contacts).WithOne(c => c.User);
+
 
             base.OnModelCreating(modelBuilder);
         }

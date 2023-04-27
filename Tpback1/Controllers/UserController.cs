@@ -46,11 +46,12 @@ namespace Tpback1.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public IActionResult CreateUser(CreateAndUpdateUserDto dto)
         {
             try
             {
-                _userRepository.Create(dto);
+                _userRepository.CreateUser(dto);
             }
             catch (Exception ex)
             {

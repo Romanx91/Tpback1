@@ -62,12 +62,6 @@ builder.Services.AddAuthentication("Bearer") //"Bearer" es el tipo de auntentica
 );
 
 
-var config = new MapperConfiguration(cfg =>
-{
-    cfg.AddProfile(new ContactProfile());
-    cfg.AddProfile(new UserProfile());
-});
-var mapper = config.CreateMapper();
 
 #region DependencyInjections
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());

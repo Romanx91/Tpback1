@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Tpback1.Data;
 
@@ -11,9 +12,11 @@ using Tpback1.Data;
 namespace Tpback1.Migrations
 {
     [DbContext(typeof(AgendaContext))]
-    partial class AgendaContextModelSnapshot : ModelSnapshot
+    [Migration("20221218110214_1.1")]
+    partial class _11
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,29 +24,6 @@ namespace Tpback1.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("Tpback1.Entities.BlockedContact", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("ContactId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ContactId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("BlockedContact");
-                });
 
             modelBuilder.Entity("Tpback1.Entities.Contacts", b =>
                 {
@@ -53,21 +33,18 @@ namespace Tpback1.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<long?>("CelularNumber")
-                        .HasColumnType("bigint");
+                    b.Property<int?>("CelularNumber")
+                        .HasColumnType("int");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsBlocked")
-                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long?>("TelephoneNumber")
-                        .HasColumnType("bigint");
+                    b.Property<int?>("TelephoneNumber")
+                        .HasColumnType("int");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
@@ -82,28 +59,33 @@ namespace Tpback1.Migrations
                         new
                         {
                             Id = 1,
-                            CelularNumber = 341457896L,
+                            CelularNumber = 341457896,
                             Description = "Plomero",
-                            IsBlocked = false,
                             Name = "Jaimito",
                             UserId = 1
                         },
                         new
                         {
                             Id = 2,
-                            CelularNumber = 34156978L,
+                            CelularNumber = 34156978,
                             Description = "Papa",
-                            IsBlocked = false,
                             Name = "Pepe",
-                            TelephoneNumber = 422568L,
+                            TelephoneNumber = 422568,
                             UserId = 2
                         },
                         new
                         {
+                            Id = 3,
+                            CelularNumber = 11425789,
+                            Description = "Jefa",
+                            Name = "Maria",
+                            UserId = 1
+                        },
+                        new
+                        {
                             Id = 4,
-                            CelularNumber = 341567891L,
+                            CelularNumber = 341567891,
                             Description = "desconocido",
-                            IsBlocked = false,
                             Name = "reex",
                             UserId = 3
                         });
@@ -171,25 +153,6 @@ namespace Tpback1.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Tpback1.Entities.BlockedContact", b =>
-                {
-                    b.HasOne("Tpback1.Entities.Contacts", "Contact")
-                        .WithMany()
-                        .HasForeignKey("ContactId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Tpback1.Entities.User", "User")
-                        .WithMany("ContactBlacks")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Contact");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("Tpback1.Entities.Contacts", b =>
                 {
                     b.HasOne("Tpback1.Entities.User", "User")
@@ -203,8 +166,6 @@ namespace Tpback1.Migrations
 
             modelBuilder.Entity("Tpback1.Entities.User", b =>
                 {
-                    b.Navigation("ContactBlacks");
-
                     b.Navigation("Contacts");
                 });
 #pragma warning restore 612, 618
