@@ -36,8 +36,14 @@ namespace Tpback1.Controllers
         {
             var currentUserId = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
             var contacts = _contactRepository.FindAllNotBlockedByUser(currentUserId);
-            return Ok(contacts);
+            var contactDtos = _mapper.Map<List<ContactDto>>(contacts);
+            return Ok(contactDtos);
         }
+
+
+
+
+
 
         [HttpGet("blocked")]
         public IActionResult GetAllBlockedByCurrentUser()
@@ -45,10 +51,11 @@ namespace Tpback1.Controllers
             // Obtiene el id del usuario autenticado
             var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
-            var contacts = _contactRepository.FindAllBlockedByUser(userId);
-            var contactDtos = _mapper.Map<List<CreateAndUpdateContact>>(contacts);
-            return Ok(contactDtos);
+            var contacts = _contactRepository.FindAllBlockedByUserWithCalls(userId);
+            var blockedContactDtos = _mapper.Map<List<BlockedContactWithCallInfoDto>>(contacts);
+            return Ok(blockedContactDtos);
         }
+
 
 
 
@@ -154,7 +161,7 @@ namespace Tpback1.Controllers
 
         }
 
-        [HttpPost("{id}/block")]
+        [HttpPost("block/{id}")]
         public IActionResult BlockContact(int id)
         {
             try
@@ -168,7 +175,7 @@ namespace Tpback1.Controllers
             }
         }
 
-        [HttpPost("{id}/unblock")]
+        [HttpPost("unblock/{id}")]
         public IActionResult UnblockContact(int id)
         {
             try
@@ -183,6 +190,35 @@ namespace Tpback1.Controllers
         }
 
 
+        [HttpGet("getcall/{contactId}")]
+        public IActionResult GetCallByContactId(int contactId)
+        {
+            var call = _contactRepository.GetCallByContactId(contactId);
+
+            if (call == null)
+            {
+                return NotFound("No se encontró ninguna llamada con el ID de contacto proporcionado.");
+            }
+
+            var callInfoDto = _mapper.Map<CallInfoDto>(call);
+
+            return Ok(callInfoDto);
+        }
+
+
+        [HttpDelete("deletecalls/{contactId}")]
+        public IActionResult DeleteCallsByContactId(int contactId)
+        {
+            try
+            {
+                _contactRepository.DeleteCallsByContactId(contactId);
+                return Ok("Se eliminaron las llamadas asociadas al ID de contacto proporcionado.");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
 
 
 

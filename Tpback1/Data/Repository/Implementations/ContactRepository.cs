@@ -51,6 +51,14 @@ namespace Tpback1.Data.Repository.Implementations
         }
 
 
+        public List<Contacts> FindAllBlockedByUserWithCalls(int userId)
+        {
+            return _context.Contacts
+            .Include(c => c.Call)
+            .Where(c => c.UserId == userId && c.IsBlocked)
+            .OrderByDescending(c => c.Call.CountCall)
+            .ToList();
+        }
 
 
         public void Create(CreateAndUpdateContact dto, int userId)
@@ -60,9 +68,34 @@ namespace Tpback1.Data.Repository.Implementations
             contact.IsBlocked = false;
             _context.Contacts.Add(contact);
             _context.SaveChanges();
+
+            CreateCall(contact.Id);
+        }
+        public void CreateCall(int contactId)
+        {
+            var call = new Call
+            {
+                ContactId = contactId,
+                CountCall = new Random().Next(1, 101),
+                TimeCall = DateTime.Now
+            };
+
+            _context.Calls.Add(call);
+            _context.SaveChanges();
         }
 
+        public Call GetCallByContactId(int contactId)
+        {
+            return _context.Calls.FirstOrDefault(c => c.ContactId == contactId);
+        }
 
+        public void DeleteCallsByContactId(int contactId)
+        {
+            var calls = _context.Calls.Where(c => c.ContactId == contactId).ToList();
+
+            _context.Calls.RemoveRange(calls);
+            _context.SaveChanges();
+        }
 
         public List<Contacts> FindAllByUser(int userId)
         {

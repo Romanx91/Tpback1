@@ -9,8 +9,8 @@ namespace Tpback1.Data
 
         public DbSet<User> Users { get; set; }
         public DbSet<Contacts> Contacts { get; set; }
-        
-        
+        public DbSet<Call> Calls { get; set; }
+
 
 
 
@@ -108,6 +108,10 @@ namespace Tpback1.Data
                  );
 
             modelBuilder.Entity<User>().HasMany(u => u.Contacts).WithOne(c => c.User);
+            modelBuilder.Entity<Call>()
+            .HasOne(c => c.Contact)
+            .WithOne(c => c.Call)
+            .HasForeignKey<Call>(c => c.ContactId);
 
 
             base.OnModelCreating(modelBuilder);

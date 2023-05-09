@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Tpback1.Data;
 
@@ -11,9 +12,11 @@ using Tpback1.Data;
 namespace Tpback1.Migrations
 {
     [DbContext(typeof(AgendaContext))]
-    partial class AgendaContextModelSnapshot : ModelSnapshot
+    [Migration("20230501174824_AddCallsTable1.1")]
+    partial class AddCallsTable11
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -56,9 +59,6 @@ namespace Tpback1.Migrations
                     b.Property<int>("ContactId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ContactsId")
-                        .HasColumnType("int");
-
                     b.Property<int>("CountCall")
                         .HasColumnType("int");
 
@@ -67,10 +67,7 @@ namespace Tpback1.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ContactId")
-                        .IsUnique();
-
-                    b.HasIndex("ContactsId");
+                    b.HasIndex("ContactId");
 
                     b.ToTable("Calls");
                 });
@@ -223,14 +220,10 @@ namespace Tpback1.Migrations
             modelBuilder.Entity("Tpback1.Entities.Call", b =>
                 {
                     b.HasOne("Tpback1.Entities.Contacts", "Contact")
-                        .WithOne("Call")
-                        .HasForeignKey("Tpback1.Entities.Call", "ContactId")
+                        .WithMany("Calls")
+                        .HasForeignKey("ContactId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("Tpback1.Entities.Contacts", null)
-                        .WithMany("Calls")
-                        .HasForeignKey("ContactsId");
 
                     b.Navigation("Contact");
                 });
@@ -248,9 +241,6 @@ namespace Tpback1.Migrations
 
             modelBuilder.Entity("Tpback1.Entities.Contacts", b =>
                 {
-                    b.Navigation("Call")
-                        .IsRequired();
-
                     b.Navigation("Calls");
                 });
 

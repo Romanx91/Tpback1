@@ -20,6 +20,7 @@ namespace Tpback1.Entities
         public User User { get; set; }
         public int UserId { get; set; }
         public bool IsBlocked { get; set; }
+        public Call Call { get; set; }
 
 
 
