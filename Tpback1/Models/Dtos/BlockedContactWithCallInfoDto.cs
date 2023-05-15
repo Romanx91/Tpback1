@@ -8,6 +8,7 @@
         public long? TelephoneNumber { get; set; }
         public string Description { get; set; }
         public bool IsBlocked { get; set; }
+
         public CallInfoDto CallInfo { get; set; }
     }
 

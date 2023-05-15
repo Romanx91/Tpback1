@@ -42,7 +42,7 @@ namespace Tpback1.Data.Repository.Implementations
 
         public List<Contacts> FindAllNotBlockedByUser(int userId)
         {
-            return _context.Contacts.Where(c => c.UserId == userId && !c.IsBlocked).ToList();
+            return _context.Contacts.Where(c => c.UserId == userId && !c.IsBlocked).OrderBy(c => c.Name).ToList();
         }
 
         public List<Contacts> FindAllBlockedByUser(int userId)
